@@ -8,6 +8,28 @@ class Array {
         this.array = new int[size];
     }
  
+    // insert
+    public void insert(int data, int index){
+
+    }
+    public boolean isFull(){
+        return this.lastIndex == array.length - 1 ;
+    }
+    // is empty
+    public boolean isEmpty(){
+        return this.lastIndex < 0;
+    }
+    // total element
+    public int totalElement(){
+        if(this.lastIndex < 0) return 0;
+        return this.lastIndex + 1 ;
+    }
+    //delete 
+    public void delete(int index){}
+    //edit
+    public void edit(int data, int index){}
+
+    // append
     public void append(int data){
         try {
             if (lastIndex +1 < array.length) {
@@ -20,6 +42,7 @@ class Array {
         }
     }
 
+    // display
     public void display(){
        for(int i = 0; i <= lastIndex; i++) {
             System.out.print(this.array[i]+", ");
