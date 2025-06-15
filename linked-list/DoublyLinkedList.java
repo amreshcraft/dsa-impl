@@ -52,6 +52,9 @@ public boolean isEmpty(){
 // insert at begining
 public void insertAtBegin(int data){
     Node newNode = new Node(data);
+    if(isEmpty()) {
+        this.start.prev = newNode;
+    }
     newNode.next = this.start;
     this.start = newNode;
 }
@@ -86,14 +89,29 @@ public boolean search(int value){
 public void insertAfterNode(int data, int afterThis){
     if(isEmpty()) {
         System.out.println("list is empty, no item to add after ");
+        return;
     }
-    
+    Node temp = this.start;
+    while(temp !=null){
+
+        if(temp.item == afterThis){
+            Node newNode = new Node(data);
+            newNode.next = temp.next;
+            temp.next = newNode;
+            return;
+        }
+        temp = temp.next;
+    }
+  System.out.println("no " + afterThis + " is found to add after this");
 }
 // delete from begin
 public void deleteFromBegin(){
     if(isEmpty()) return;
     this.start = this.start.next;
-    this.start.prev = null;
+    if(this.start !=null){
+
+        this.start.prev = null;
+    }
 }
 // delete from end
 public void deleteFromEnd(){
@@ -101,8 +119,8 @@ public void deleteFromEnd(){
     if(isEmpty()) return;
     Node temp = this.start;
     
-    // if only one item exist
-    if(temp.prev == null){
+       // if only one node
+    if(this.start.next == null){
         this.start = null;
         return;
     }
@@ -114,22 +132,41 @@ public void deleteFromEnd(){
     temp.prev.next = null;
 }
 // delete by value
-public void deleteByValue(int value){
-    if(isEmpty()){
-        System.out.println("list is empty .");
+public void deleteByValue(int value) {
+    if (isEmpty()) {
+        System.out.println("List is empty.");
         return;
     }
+
     Node temp = this.start;
+
     while (temp != null) {
-        if(temp.item == value){
-            Node prev = temp.prev;
-            Node next = temp.next;
-            prev.next = next;
+        if (temp.item == value) {
+
+            // Deleting the first node
+            if (temp.prev == null) {
+                this.start = temp.next;
+                if (this.start != null) { // If list is not empty after deletion
+                    this.start.prev = null;
+                }
+            } 
+            // Deleting middle or last node
+            else {
+                temp.prev.next = temp.next;
+                if (temp.next != null) { // If it's not the last node
+                    temp.next.prev = temp.prev;
+                }
+            }
+
+            System.out.println("Deleted node with value: " + value);
             return;
         }
         temp = temp.next;
     }
+
+    System.out.println("Node with value " + value + " not found.");
 }
+
 // display
 public void display(){
 Node temp = this.start;
@@ -160,6 +197,9 @@ System.out.println();
         dll.display();
         dll.deleteFromBegin();
         System.out.println("delete at begin");
+        dll.display();
+        dll.deleteByValue(12);
+        System.out.println("Delete by value");
         dll.display();
     }
 }
